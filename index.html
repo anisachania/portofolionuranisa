@@ -1,848 +1,1032 @@
 <!DOCTYPE html>
 <html lang="id">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Portofolio Nur Annisa Chania</title>
     <style>
-      /* CSS yang sudah ada - tetap dipertahankan */
-      body {
-        font-family: "Poppins", sans-serif;
-        background-color: #ffe6f0;
-        color: #333;
-        margin: 0;
-        padding: 0;
-        scroll-behavior: smooth;
-        overflow-x: hidden;
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-      }
-
-      /* CSS untuk mode cetak/PDF */
-      @media print {
+        /* CSS yang sudah ada - tetap dipertahankan */
         body {
-          background-color: white !important;
-          color: black !important;
-          font-size: 12pt !important;
-          line-height: 1.5 !important;
-          overflow: visible !important;
+            font-family: "Poppins", sans-serif;
+            background-color: #ffe6f0;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
 
-        nav,
-        .lightbox-modal,
-        .loader,
-        .lightbox-close,
-        .lightbox-nav,
-        .lightbox-indicator {
-          display: none !important;
+        /* CSS untuk mode cetak/PDF */
+        @media print {
+            body {
+                background-color: white !important;
+                color: black !important;
+                font-size: 12pt !important;
+                line-height: 1.5 !important;
+                overflow: visible !important;
+            }
+
+            nav,
+            .lightbox-modal,
+            .loader,
+            .lightbox-close,
+            .lightbox-nav,
+            .lightbox-indicator {
+                display: none !important;
+            }
+
+            section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin: 20px 0 !important;
+                padding: 10px !important;
+            }
+
+            .experience-card,
+            .certificate-card,
+            .award-card,
+            .project-card {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+                margin: 10px 0 !important;
+                border: 1px solid #ddd !important;
+            }
+
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+                filter: none !important;
+                -webkit-filter: none !important;
+            }
+
+            a {
+                color: black !important;
+                text-decoration: none !important;
+            }
+
+            .social-links a {
+                background-color: transparent !important;
+                box-shadow: none !important;
+                border: 1px solid #ccc !important;
+            }
+
+            header {
+                background-color: #ffb6c1 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            footer {
+                background-color: #ffb6c1 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                position: fixed;
+                bottom: 0;
+                width: 100%;
+            }
+
+            h1,
+            h2,
+            h3 {
+                color: #000 !important;
+            }
+
+            .about img {
+                width: 150px !important;
+                height: 150px !important;
+            }
+
+            .skills li {
+                background-color: #f0f0f0 !important;
+                border: 1px solid #ddd !important;
+            }
+
+            /* Tombol cetak sembunyikan saat dicetak */
+            .print-button {
+                display: none !important;
+            }
         }
 
-        section {
-          page-break-inside: avoid !important;
-          break-inside: avoid !important;
-          margin: 20px 0 !important;
-          padding: 10px !important;
+        /* Tambahan untuk section projects */
+        .projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
         }
 
-        .experience-card,
-        .certificate-card,
-        .award-card,
         .project-card {
-          page-break-inside: avoid !important;
-          break-inside: avoid !important;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
-          margin: 10px 0 !important;
-          border: 1px solid #ddd !important;
+            background: linear-gradient(135deg, #fff0f6 0%, #ffe6f0 100%);
+            border-radius: 20px;
+            padding: 25px;
+            width: 350px;
+            box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
         }
 
-        img {
-          max-width: 100% !important;
-          height: auto !important;
-          filter: none !important;
-          -webkit-filter: none !important;
+        .project-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        a {
-          color: black !important;
-          text-decoration: none !important;
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(255, 105, 180, 0.3);
         }
 
-        .social-links a {
-          background-color: transparent !important;
-          box-shadow: none !important;
-          border: 1px solid #ccc !important;
+        .project-card h3 {
+            color: #ff66b2;
+            font-size: 1.3rem;
+            margin: 15px 0;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .project-card p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            justify-content: center;
+        }
+
+        .project-tech span {
+            background-color: #ffb6c1;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .project-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .project-links a {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            background-color: #ff66b2;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .project-links a:hover {
+            background-color: #ff3385;
+            transform: translateY(-3px);
+        }
+
+        .project-links i {
+            margin-right: 8px;
+        }
+
+        /* Tombol cetak */
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #ff66b2;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(255, 102, 178, 0.3);
+            z-index: 99;
+            transition: all 0.3s ease;
+        }
+
+        .print-button:hover {
+            background-color: #ff3385;
+            transform: scale(1.1);
         }
 
         header {
-          background-color: #ffb6c1 !important;
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
+            background-color: #ffb6c1;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
         }
 
-        footer {
-          background-color: #ffb6c1 !important;
-          -webkit-print-color-adjust: exact;
-          print-color-adjust: exact;
-          position: fixed;
-          bottom: 0;
-          width: 100%;
+        nav {
+            background-color: #ffcce0;
+            text-align: center;
+            padding: 10px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        h1,
-        h2,
-        h3 {
-          color: #000 !important;
-        }
-
-        .about img {
-          width: 150px !important;
-          height: 150px !important;
-        }
-
-        .skills li {
-          background-color: #f0f0f0 !important;
-          border: 1px solid #ddd !important;
-        }
-
-        /* Tombol cetak sembunyikan saat dicetak */
-        .print-button {
-          display: none !important;
-        }
-      }
-
-      /* Tambahan untuk section projects */
-      .projects {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 30px;
-      }
-
-      .project-card {
-        background: linear-gradient(135deg, #fff0f6 0%, #ffe6f0 100%);
-        border-radius: 20px;
-        padding: 25px;
-        width: 350px;
-        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
-        transition: all 0.3s ease;
-        opacity: 0;
-        transform: translateY(30px);
-        page-break-inside: avoid;
-        display: flex;
-        flex-direction: column;
-      }
-
-      .project-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .project-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 24px rgba(255, 105, 180, 0.3);
-      }
-
-      .project-card h3 {
-        color: #ff66b2;
-        font-size: 1.3rem;
-        margin: 15px 0;
-        min-height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-      }
-
-      .project-card p {
-        font-size: 1rem;
-        line-height: 1.6;
-        color: #555;
-        margin-bottom: 20px;
-        flex-grow: 1;
-      }
-
-      .project-tech {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin: 15px 0;
-        justify-content: center;
-      }
-
-      .project-tech span {
-        background-color: #ffb6c1;
-        color: white;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: bold;
-      }
-
-      .project-links {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 20px;
-      }
-
-      .project-links a {
-        display: inline-flex;
-        align-items: center;
-        padding: 10px 20px;
-        background-color: #ff66b2;
-        color: white;
-        text-decoration: none;
-        border-radius: 30px;
-        font-weight: bold;
-        transition: all 0.3s ease;
-      }
-
-      .project-links a:hover {
-        background-color: #ff3385;
-        transform: translateY(-3px);
-      }
-
-      .project-links i {
-        margin-right: 8px;
-      }
-
-      /* Tombol cetak */
-      .print-button {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background-color: #ff66b2;
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        box-shadow: 0 4px 12px rgba(255, 102, 178, 0.3);
-        z-index: 99;
-        transition: all 0.3s ease;
-      }
-
-      .print-button:hover {
-        background-color: #ff3385;
-        transform: scale(1.1);
-      }
-
-      header {
-        background-color: #ffb6c1;
-        color: white;
-        text-align: center;
-        padding: 20px 0;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        position: relative;
-        z-index: 10;
-      }
-
-      nav {
-        background-color: #ffcce0;
-        text-align: center;
-        padding: 10px 0;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      nav a {
-        color: #fff;
-        text-decoration: none;
-        padding: 10px 20px;
-        font-weight: bold;
-        border-radius: 20px;
-        transition: 0.3s;
-        display: inline-block;
-        margin: 0 5px;
-      }
-
-      nav a:hover {
-        background-color: #ff99cc;
-      }
-
-      section {
-        padding: 40px 20px;
-        text-align: center;
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      h2 {
-        color: #ff66b2;
-        margin-bottom: 20px;
-        font-size: 2rem;
-      }
-
-      .about {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .about-content {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        max-width: 900px;
-        margin-top: 20px;
-      }
-
-      .about img {
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
-        object-fit: cover;
-        cursor: pointer;
-        transition: transform 0.3s;
-      }
-
-      .about img:hover {
-        transform: scale(1.05);
-      }
-
-      .about-text {
-        flex: 1;
-        min-width: 300px;
-        text-align: left;
-        font-size: 1.1rem;
-        line-height: 1.6;
-      }
-
-      .skills ul {
-        list-style: none;
-        padding: 0;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        max-width: 800px;
-        margin: 0 auto;
-      }
-
-      .skills li {
-        background-color: #ffd6e7;
-        margin: 5px;
-        padding: 12px 25px;
-        border-radius: 30px;
-        font-weight: 500;
-        transition: transform 0.3s, background-color 0.3s;
-      }
-
-      .skills li:hover {
-        transform: translateY(-5px);
-        background-color: #ffc2d9;
-      }
-
-      .experience {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 25px;
-      }
-
-      .experience-card {
-        background-color: #fff0f6;
-        border-radius: 20px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        width: 280px;
-        text-align: center;
-        padding: 20px;
-        transition: transform 0.3s, box-shadow 0.3s;
-        opacity: 0;
-        transform: translateY(30px);
-        display: flex;
-        flex-direction: column;
-      }
-
-      .experience-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .experience-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .experience-card img {
-        width: 100%;
-        height: 180px;
-        object-fit: cover;
-        border-radius: 15px;
-        margin-bottom: 15px;
-        cursor: pointer;
-        transition: transform 0.3s;
-      }
-
-      .experience-card img:hover {
-        transform: scale(1.03);
-      }
-
-      .experience-card h3 {
-        color: #ff66b2;
-        font-size: 1.1rem;
-        margin: 10px 0;
-        min-height: 55px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .experience-card p {
-        font-size: 0.95rem;
-        line-height: 1.5;
-        color: #555;
-        flex-grow: 1;
-      }
-
-      .certificates-container,
-      .awards-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 30px;
-      }
-
-      .certificate-card,
-      .award-card {
-        background: linear-gradient(135deg, #fff0f6 0%, #ffe6f0 100%);
-        border-radius: 20px;
-        padding: 20px;
-        width: 280px;
-        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
-        transition: all 0.3s ease;
-        opacity: 0;
-        transform: translateY(30px);
-        display: flex;
-        flex-direction: column;
-      }
-
-      .certificate-card.visible,
-      .award-card.visible {
-        opacity: 1;
-        transform: translateY(0);
-      }
-
-      .certificate-card:hover,
-      .award-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 12px 24px rgba(255, 105, 180, 0.3);
-      }
-
-      .certificate-card img,
-      .award-card img,
-      .project-card img {
-        width: 100%;
-        height: 200px;
-        border-radius: 15px;
-        box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
-        margin-bottom: 15px;
-        object-fit: cover;
-        cursor: pointer;
-        transition: transform 0.3s;
-      }
-
-      .certificate-card img:hover,
-      .award-card img:hover,
-      .project-card img:hover {
-        transform: scale(1.03);
-      }
-
-      .certificate-card h3,
-      .award-card h3 {
-        color: #ff66b2;
-        font-size: 1rem;
-        margin: 10px 0;
-        min-height: 50px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .certificate-badge,
-      .award-badge {
-        display: inline-block;
-        background-color: #ffb6c1;
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        font-size: 0.85rem;
-        font-weight: bold;
-        margin-top: 10px;
-      }
-
-      .award-badge {
-        background-color: #ffcc00;
-      }
-
-      .trophy-icon {
-        font-size: 2.5rem;
-        margin-bottom: 15px;
-        color: #ffcc00;
-        text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      }
-
-      .social-links {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 30px;
-        margin-top: 20px;
-      }
-
-      .social-links a {
-        text-decoration: none;
-        color: #ff66b2;
-        font-size: 1.1rem;
-        font-weight: bold;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        background-color: white;
-        padding: 10px 20px;
-        border-radius: 30px;
-        box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
-      }
-
-      .social-links a:hover {
-        color: #ff3385;
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
-      }
-
-      .social-links img {
-        width: 30px;
-        height: 30px;
-        margin-right: 10px;
-      }
-
-      footer {
-        background-color: #ffb6c1;
-        color: white;
-        text-align: center;
-        padding: 20px;
-        font-size: 1rem;
-        margin-top: 40px;
-      }
-
-      /* Responsiveness */
-      @media (max-width: 768px) {
         nav a {
-          padding: 8px 12px;
-          font-size: 0.9rem;
-          margin: 2px;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 20px;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        nav a:hover {
+            background-color: #ff99cc;
+        }
+
+        section {
+            padding: 40px 20px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         h2 {
-          font-size: 1.7rem;
+            color: #ff66b2;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .about {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            max-width: 900px;
+            margin-top: 20px;
         }
 
         .about img {
-          width: 180px;
-          height: 180px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .about img:hover {
+            transform: scale(1.05);
         }
 
         .about-text {
-          text-align: center;
-          min-width: 100%;
+            flex: 1;
+            min-width: 300px;
+            text-align: left;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
-        .experience-card,
-        .certificate-card,
-        .award-card,
-        .project-card {
-          width: 100%;
-          max-width: 350px;
-        }
-
-        .social-links {
-          gap: 15px;
-        }
-
-        .social-links a {
-          font-size: 1rem;
-          padding: 8px 15px;
-        }
-
-        .print-button {
-          bottom: 20px;
-          right: 20px;
-          width: 50px;
-          height: 50px;
-          font-size: 1.3rem;
-        }
-      }
-
-      @media (max-width: 480px) {
-        section {
-          padding: 30px 15px;
-        }
-
-        h2 {
-          font-size: 1.5rem;
-        }
-
-        nav a {
-          display: block;
-          margin: 5px auto;
-          width: 90%;
-          max-width: 250px;
-        }
-
-        .about img {
-          width: 150px;
-          height: 150px;
+        .skills ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .skills li {
-          padding: 10px 20px;
-          font-size: 0.9rem;
+            background-color: #ffd6e7;
+            margin: 5px;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: transform 0.3s, background-color 0.3s;
         }
 
-        .experience-card h3,
+        .skills li:hover {
+            transform: translateY(-5px);
+            background-color: #ffc2d9;
+        }
+
+        .experience {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+        }
+
+        .experience-card {
+            background-color: #fff0f6;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(30px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .experience-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .experience-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .experience-card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .experience-card img:hover {
+            transform: scale(1.03);
+        }
+
+        .experience-card h3 {
+            color: #ff66b2;
+            font-size: 1.1rem;
+            margin: 10px 0;
+            min-height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .experience-card p {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #555;
+            flex-grow: 1;
+        }
+
+        .certificates-container,
+        .awards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .certificate-card,
+        .award-card {
+            background: linear-gradient(135deg, #fff0f6 0%, #ffe6f0 100%);
+            border-radius: 20px;
+            padding: 20px;
+            width: 280px;
+            box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .certificate-card.visible,
+        .award-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .certificate-card:hover,
+        .award-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(255, 105, 180, 0.3);
+        }
+
+        .certificate-card img,
+        .award-card img,
+        .project-card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+            margin-bottom: 15px;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .certificate-card img:hover,
+        .award-card img:hover,
+        .project-card img:hover {
+            transform: scale(1.03);
+        }
+
         .certificate-card h3,
-        .award-card h3,
-        .project-card h3 {
-          font-size: 1rem;
-          min-height: auto;
+        .award-card h3 {
+            color: #ff66b2;
+            font-size: 1rem;
+            margin: 10px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .print-button {
-          bottom: 15px;
-          right: 15px;
-          width: 45px;
-          height: 45px;
-          font-size: 1.2rem;
+        .certificate-badge,
+        .award-badge {
+            display: inline-block;
+            background-color: #ffb6c1;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-top: 10px;
         }
-      }
 
-      /* Animasi untuk scroll */
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
+        .award-badge {
+            background-color: #ffcc00;
         }
-        to {
-          opacity: 1;
-          transform: translateY(0);
+
+        .trophy-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #ffcc00;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-      }
 
-      .fade-in {
-        animation: fadeInUp 0.8s ease forwards;
-      }
-
-      /* Loading spinner */
-      .loader {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.8);
-        z-index: 9999;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .spinner {
-        width: 60px;
-        height: 60px;
-        border: 5px solid #ffb6c1;
-        border-top: 5px solid #ff66b2;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-      }
-
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
         }
-        100% {
-          transform: rotate(360deg);
+
+        .social-links a {
+            text-decoration: none;
+            color: #ff66b2;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 8px rgba(255, 105, 180, 0.2);
         }
-      }
 
-      /* Lightbox/Modal Styling */
-      .lightbox-modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.9);
-        z-index: 1000;
-        justify-content: center;
-        align-items: center;
-        animation: fadeIn 0.3s ease;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
+        .social-links a:hover {
+            color: #ff3385;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.3);
         }
-        to {
-          opacity: 1;
+
+        .social-links img {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
         }
-      }
 
-      .lightbox-content {
-        max-width: 90%;
-        max-height: 90%;
-        position: relative;
-        animation: zoomIn 0.3s ease;
-      }
-
-      @keyframes zoomIn {
-        from {
-          transform: scale(0.9);
-          opacity: 0;
+        footer {
+            background-color: #ffb6c1;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 1rem;
+            margin-top: 40px;
         }
-        to {
-          transform: scale(1);
-          opacity: 1;
+
+        /* Responsiveness - TAMBAHAN BARU untuk mobile yang lebih rapi */
+        @media (max-width: 768px) {
+            /* Navigation mobile yang lebih rapi */
+            nav {
+                padding: 8px 0;
+                overflow-x: auto;
+                white-space: nowrap;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+
+            nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            nav a {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                margin: 0 3px;
+                white-space: nowrap;
+                display: inline-block;
+            }
+
+            /* Header lebih compact */
+            header {
+                padding: 15px 10px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+                margin: 5px 0;
+            }
+
+            /* Section padding yang lebih baik */
+            section {
+                padding: 30px 15px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            /* About section mobile */
+            .about-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .about img {
+                width: 150px;
+                height: 150px;
+            }
+
+            .about-text {
+                text-align: center;
+                min-width: 100%;
+                font-size: 0.95rem;
+                line-height: 1.5;
+                padding: 0 10px;
+            }
+
+            /* Skills grid yang lebih baik */
+            .skills ul {
+                gap: 10px;
+                padding: 0 10px;
+            }
+
+            .skills li {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+                margin: 3px;
+            }
+
+            /* Experience, certificates, awards grid mobile */
+            .experience,
+            .certificates-container,
+            .awards-container,
+            .projects {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 20px;
+                padding: 0 10px;
+            }
+
+            .experience-card,
+            .certificate-card,
+            .award-card,
+            .project-card {
+                width: 100%;
+                margin: 0 auto;
+                padding: 15px;
+            }
+
+            /* Text dalam kartu */
+            .experience-card h3,
+            .certificate-card h3,
+            .award-card h3,
+            .project-card h3 {
+                font-size: 1rem;
+                min-height: auto;
+                margin: 10px 0;
+                line-height: 1.3;
+            }
+
+            .experience-card p,
+            .certificate-card p,
+            .award-card p,
+            .project-card p {
+                font-size: 0.9rem;
+                line-height: 1.4;
+            }
+
+            /* Project tech tags */
+            .project-tech {
+                gap: 8px;
+            }
+
+            .project-tech span {
+                padding: 4px 10px;
+                font-size: 0.8rem;
+            }
+
+            /* Project links */
+            .project-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .project-links a {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+                justify-content: center;
+            }
+
+            /* Social links mobile */
+            .social-links {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .social-links a {
+                width: 90%;
+                max-width: 300px;
+                justify-content: center;
+                padding: 12px 20px;
+            }
+
+            /* Footer */
+            footer {
+                padding: 15px 10px;
+                font-size: 0.9rem;
+            }
+
+            /* Tombol cetak */
+            .print-button {
+                bottom: 20px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
         }
-      }
 
-      .lightbox-img {
-        max-width: 100%;
-        max-height: 80vh;
-        border-radius: 10px;
-        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
-      }
+        @media (max-width: 480px) {
+            /* Untuk layar sangat kecil */
+            nav a {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
 
-      .lightbox-caption {
-        color: white;
-        text-align: center;
-        padding: 15px;
-        font-size: 1.2rem;
-        background-color: rgba(255, 105, 180, 0.8);
-        border-radius: 0 0 10px 10px;
-        margin-top: -5px;
-      }
+            header h1 {
+                font-size: 1.3rem;
+            }
 
-      .lightbox-close {
-        position: absolute;
-        top: -40px;
-        right: -10px;
-        color: white;
-        font-size: 2.5rem;
-        cursor: pointer;
-        background: none;
-        border: none;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.3s;
-      }
+            h2 {
+                font-size: 1.3rem;
+            }
 
-      .lightbox-close:hover {
-        transform: scale(1.2);
-        color: #ffb6c1;
-      }
+            .about img {
+                width: 130px;
+                height: 130px;
+            }
 
-      .lightbox-nav {
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        transform: translateY(-50%);
-        padding: 0 20px;
-      }
+            .about-text {
+                font-size: 0.9rem;
+            }
 
-      .lightbox-prev,
-      .lightbox-next {
-        background-color: rgba(255, 182, 193, 0.8);
-        color: white;
-        border: none;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        font-size: 1.5rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s;
-      }
+            .skills li {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
 
-      .lightbox-prev:hover,
-      .lightbox-next:hover {
-        background-color: #ff66b2;
-        transform: scale(1.1);
-      }
+            .experience,
+            .certificates-container,
+            .awards-container,
+            .projects {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
 
-      /* Indikator gambar */
-      .lightbox-indicator {
-        position: absolute;
-        bottom: -40px;
-        left: 0;
-        width: 100%;
-        text-align: center;
-        color: white;
-        font-size: 1rem;
-      }
+            .experience-card,
+            .certificate-card,
+            .award-card,
+            .project-card {
+                padding: 12px;
+            }
 
-      /* Efek klik pada gambar */
-      .clickable-img {
-        cursor: pointer;
-        transition: transform 0.3s;
-      }
+            .trophy-icon {
+                font-size: 2rem;
+            }
 
-      .clickable-img:hover {
-        transform: scale(1.02);
-      }
+            .social-links a {
+                width: 95%;
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
 
-      /* Responsif untuk lightbox */
-      @media (max-width: 768px) {
-        .lightbox-prev,
-        .lightbox-next {
-          width: 40px;
-          height: 40px;
-          font-size: 1.2rem;
+            .social-links img {
+                width: 25px;
+                height: 25px;
+            }
+
+            .print-button {
+                bottom: 15px;
+                right: 15px;
+                width: 45px;
+                height: 45px;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (min-width: 769px) and (max-width: 1024px) {
+            /* Tablet */
+            nav a {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+            }
+
+            .experience,
+            .certificates-container,
+            .awards-container,
+            .projects {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Animasi untuk scroll */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        /* Loading spinner */
+        .loader {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #ffb6c1;
+            border-top: 5px solid #ff66b2;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Lightbox/Modal Styling */
+        .lightbox-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
         }
 
         .lightbox-caption {
-          font-size: 1rem;
-          padding: 10px;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2rem;
+            background-color: rgba(255, 105, 180, 0.8);
+            border-radius: 0 0 10px 10px;
+            margin-top: -5px;
         }
 
         .lightbox-close {
-          top: -50px;
-          right: 10px;
-          font-size: 2rem;
+            position: absolute;
+            top: -40px;
+            right: -10px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
         }
-      }
 
-      /* Tambahan untuk proyek */
-      .project-image {
-        width: 100%;
-        height: 200px;
-        border-radius: 15px;
-        object-fit: cover;
-        margin-bottom: 15px;
-        box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
-      }
+        .lightbox-close:hover {
+            transform: scale(1.2);
+            color: #ffb6c1;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            padding: 0 20px;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            background-color: rgba(255, 182, 193, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background-color: #ff66b2;
+            transform: scale(1.1);
+        }
+
+        /* Indikator gambar */
+        .lightbox-indicator {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        /* Efek klik pada gambar */
+        .clickable-img {
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .clickable-img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Responsif untuk lightbox */
+        @media (max-width: 768px) {
+            .lightbox-prev,
+            .lightbox-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .lightbox-caption {
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            .lightbox-close {
+                top: -50px;
+                right: 10px;
+                font-size: 2rem;
+            }
+        }
+
+        /* Tambahan untuk proyek */
+        .project-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+        }
+
+        /* Menu mobile toggle (opsional untuk future enhancement) */
+        .mobile-menu-toggle {
+            display: none;
+        }
+
+        /* Touch-friendly untuk mobile */
+        @media (max-width: 768px) {
+            .experience-card,
+            .certificate-card,
+            .award-card,
+            .project-card {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            .clickable-img {
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            nav a {
+                -webkit-tap-highlight-color: rgba(255, 182, 193, 0.3);
+            }
+
+            .social-links a {
+                -webkit-tap-highlight-color: rgba(255, 102, 178, 0.3);
+            }
+        }
     </style>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-  </head>
-  <body>
+</head>
+<body>
     <!-- Loading spinner -->
     <div class="loader" id="loader">
       <div class="spinner"></div>
@@ -1342,216 +1526,233 @@
     </footer>
 
     <script>
-      // Animasi scroll dan efek loading
-      document.addEventListener("DOMContentLoaded", function () {
-        // Tampilkan loading spinner
-        const loader = document.getElementById("loader");
-        if (loader) {
-          loader.style.display = "flex";
+        // Animasi scroll dan efek loading
+        document.addEventListener("DOMContentLoaded", function () {
+            // Tampilkan loading spinner
+            const loader = document.getElementById("loader");
+            if (loader) {
+                loader.style.display = "flex";
 
-          // Sembunyikan loader setelah halaman selesai dimuat
-          window.addEventListener("load", function () {
-            setTimeout(function () {
-              loader.style.display = "none";
-            }, 500);
-          });
-        }
-
-        // Animasi untuk elemen saat scroll
-        const observerOptions = {
-          threshold: 0.1,
-          rootMargin: "0px 0px -50px 0px",
-        };
-
-        const observer = new IntersectionObserver(function (entries) {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-            }
-          });
-        }, observerOptions);
-
-        // Amati semua kartu pengalaman, sertifikat, penghargaan, dan proyek
-        document
-          .querySelectorAll(
-            ".experience-card, .certificate-card, .award-card, .project-card"
-          )
-          .forEach((card) => {
-            observer.observe(card);
-          });
-
-        // Smooth scroll untuk navigasi
-        document.querySelectorAll("nav a").forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            const targetId = this.getAttribute("href");
-            if (targetId.startsWith("#")) {
-              const targetElement = document.querySelector(targetId);
-              if (targetElement) {
-                window.scrollTo({
-                  top: targetElement.offsetTop - 80,
-                  behavior: "smooth",
+                // Sembunyikan loader setelah halaman selesai dimuat
+                window.addEventListener("load", function () {
+                    setTimeout(function () {
+                        loader.style.display = "none";
+                    }, 500);
                 });
-              }
             }
-          });
-        });
 
-        // Efek hover untuk navigasi
-        const navLinks = document.querySelectorAll("nav a");
-        navLinks.forEach((link) => {
-          link.addEventListener("mouseenter", function () {
-            this.style.transform = "translateY(-3px)";
-          });
+            // Animasi untuk elemen saat scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px",
+            };
 
-          link.addEventListener("mouseleave", function () {
-            this.style.transform = "translateY(0)";
-          });
-        });
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, observerOptions);
 
-        // Efek parallax sederhana untuk header
-        window.addEventListener("scroll", function () {
-          const scrolled = window.pageYOffset;
-          const header = document.querySelector("header");
+            // Amati semua kartu pengalaman, sertifikat, penghargaan, dan proyek
+            document
+                .querySelectorAll(
+                    ".experience-card, .certificate-card, .award-card, .project-card"
+                )
+                .forEach((card) => {
+                    observer.observe(card);
+                });
 
-          if (header) {
-            header.style.transform = `translateY(${scrolled * 0.1}px)`;
-          }
-        });
+            // Smooth scroll untuk navigasi
+            document.querySelectorAll("nav a").forEach((anchor) => {
+                anchor.addEventListener("click", function (e) {
+                    e.preventDefault();
 
-        // Lightbox Functionality
-        let currentImageIndex = 0;
-        const images = [];
-        const imageDescriptions = [];
+                    const targetId = this.getAttribute("href");
+                    if (targetId.startsWith("#")) {
+                        const targetElement = document.querySelector(targetId);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: "smooth",
+                            });
+                        }
+                    }
+                });
+            });
 
-        // Kumpulkan semua gambar yang bisa diklik
-        document.querySelectorAll(".clickable-img").forEach((img, index) => {
-          images.push(img.src);
-          // Ambil deskripsi dari elemen terdekat
-          const card = img.closest(
-            ".experience-card, .certificate-card, .award-card, .about-content, .project-card"
-          );
-          let description = "";
+            // Efek hover untuk navigasi
+            const navLinks = document.querySelectorAll("nav a");
+            navLinks.forEach((link) => {
+                link.addEventListener("mouseenter", function () {
+                    this.style.transform = "translateY(-3px)";
+                });
 
-          if (card) {
-            if (card.classList.contains("about-content")) {
-              description = "Foto Profil Nur Annisa Chania";
-            } else if (card.querySelector("h3")) {
-              description = card.querySelector("h3").textContent;
+                link.addEventListener("mouseleave", function () {
+                    this.style.transform = "translateY(0)";
+                });
+            });
+
+            // Efek parallax sederhana untuk header
+            window.addEventListener("scroll", function () {
+                const scrolled = window.pageYOffset;
+                const header = document.querySelector("header");
+
+                if (header) {
+                    header.style.transform = `translateY(${scrolled * 0.1}px)`;
+                }
+            });
+
+            // Lightbox Functionality
+            let currentImageIndex = 0;
+            const images = [];
+            const imageDescriptions = [];
+
+            // Kumpulkan semua gambar yang bisa diklik
+            document.querySelectorAll(".clickable-img").forEach((img, index) => {
+                images.push(img.src);
+                // Ambil deskripsi dari elemen terdekat
+                const card = img.closest(
+                    ".experience-card, .certificate-card, .award-card, .about-content, .project-card"
+                );
+                let description = "";
+
+                if (card) {
+                    if (card.classList.contains("about-content")) {
+                        description = "Foto Profil Nur Annisa Chania";
+                    } else if (card.querySelector("h3")) {
+                        description = card.querySelector("h3").textContent;
+                    }
+                }
+
+                imageDescriptions.push(description);
+
+                // Tambahkan event listener untuk setiap gambar
+                img.addEventListener("click", function () {
+                    openLightbox(index);
+                });
+            });
+
+            // Fungsi untuk membuka lightbox
+            function openLightbox(index) {
+                currentImageIndex = index;
+                const lightboxModal = document.getElementById("lightboxModal");
+                const lightboxImg = document.getElementById("lightboxImg");
+                const lightboxCaption = document.getElementById("lightboxCaption");
+                const lightboxIndicator =
+                    document.getElementById("lightboxIndicator");
+
+                lightboxImg.src = images[currentImageIndex];
+                lightboxCaption.textContent =
+                    imageDescriptions[currentImageIndex] || "Gambar Portofolio";
+                lightboxIndicator.textContent = `${currentImageIndex + 1} / ${
+                    images.length
+                }`;
+
+                lightboxModal.style.display = "flex";
+                document.body.style.overflow = "hidden"; // Mencegah scroll di background
             }
-          }
 
-          imageDescriptions.push(description);
-
-          // Tambahkan event listener untuk setiap gambar
-          img.addEventListener("click", function () {
-            openLightbox(index);
-          });
-        });
-
-        // Fungsi untuk membuka lightbox
-        function openLightbox(index) {
-          currentImageIndex = index;
-          const lightboxModal = document.getElementById("lightboxModal");
-          const lightboxImg = document.getElementById("lightboxImg");
-          const lightboxCaption = document.getElementById("lightboxCaption");
-          const lightboxIndicator =
-            document.getElementById("lightboxIndicator");
-
-          lightboxImg.src = images[currentImageIndex];
-          lightboxCaption.textContent =
-            imageDescriptions[currentImageIndex] || "Gambar Portofolio";
-          lightboxIndicator.textContent = `${currentImageIndex + 1} / ${
-            images.length
-          }`;
-
-          lightboxModal.style.display = "flex";
-          document.body.style.overflow = "hidden"; // Mencegah scroll di background
-        }
-
-        // Fungsi untuk menutup lightbox
-        function closeLightbox() {
-          const lightboxModal = document.getElementById("lightboxModal");
-          lightboxModal.style.display = "none";
-          document.body.style.overflow = "auto"; // Mengembalikan scroll
-        }
-
-        // Fungsi untuk navigasi gambar
-        function changeImage(direction) {
-          currentImageIndex += direction;
-
-          // Loop ke awal atau akhir jika mencapai batas
-          if (currentImageIndex < 0) {
-            currentImageIndex = images.length - 1;
-          } else if (currentImageIndex >= images.length) {
-            currentImageIndex = 0;
-          }
-
-          const lightboxImg = document.getElementById("lightboxImg");
-          const lightboxCaption = document.getElementById("lightboxCaption");
-          const lightboxIndicator =
-            document.getElementById("lightboxIndicator");
-
-          // Animasi fade out/in
-          lightboxImg.style.opacity = "0";
-          setTimeout(() => {
-            lightboxImg.src = images[currentImageIndex];
-            lightboxCaption.textContent =
-              imageDescriptions[currentImageIndex] || "Gambar Portofolio";
-            lightboxIndicator.textContent = `${currentImageIndex + 1} / ${
-              images.length
-            }`;
-            lightboxImg.style.opacity = "1";
-          }, 200);
-        }
-
-        // Event listener untuk tombol lightbox
-        document
-          .getElementById("lightboxClose")
-          .addEventListener("click", closeLightbox);
-        document
-          .getElementById("lightboxPrev")
-          .addEventListener("click", () => changeImage(-1));
-        document
-          .getElementById("lightboxNext")
-          .addEventListener("click", () => changeImage(1));
-
-        // Tutup lightbox dengan klik di luar gambar
-        document
-          .getElementById("lightboxModal")
-          .addEventListener("click", function (e) {
-            if (e.target === this) {
-              closeLightbox();
+            // Fungsi untuk menutup lightbox
+            function closeLightbox() {
+                const lightboxModal = document.getElementById("lightboxModal");
+                lightboxModal.style.display = "none";
+                document.body.style.overflow = "auto"; // Mengembalikan scroll
             }
-          });
 
-        // Navigasi dengan keyboard
-        document.addEventListener("keydown", function (e) {
-          const lightboxModal = document.getElementById("lightboxModal");
+            // Fungsi untuk navigasi gambar
+            function changeImage(direction) {
+                currentImageIndex += direction;
 
-          if (lightboxModal.style.display === "flex") {
-            switch (e.key) {
-              case "Escape":
-                closeLightbox();
-                break;
-              case "ArrowLeft":
-                changeImage(-1);
-                break;
-              case "ArrowRight":
-                changeImage(1);
-                break;
+                // Loop ke awal atau akhir jika mencapai batas
+                if (currentImageIndex < 0) {
+                    currentImageIndex = images.length - 1;
+                } else if (currentImageIndex >= images.length) {
+                    currentImageIndex = 0;
+                }
+
+                const lightboxImg = document.getElementById("lightboxImg");
+                const lightboxCaption = document.getElementById("lightboxCaption");
+                const lightboxIndicator =
+                    document.getElementById("lightboxIndicator");
+
+                // Animasi fade out/in
+                lightboxImg.style.opacity = "0";
+                setTimeout(() => {
+                    lightboxImg.src = images[currentImageIndex];
+                    lightboxCaption.textContent =
+                        imageDescriptions[currentImageIndex] || "Gambar Portofolio";
+                    lightboxIndicator.textContent = `${currentImageIndex + 1} / ${
+                        images.length
+                    }`;
+                    lightboxImg.style.opacity = "1";
+                }, 200);
             }
-          }
-        });
 
-        // Tambahkan efek hover pada semua gambar yang bisa diklik
-        document.querySelectorAll(".clickable-img").forEach((img) => {
-          img.addEventListener("mouseenter", function () {
-            this.style.cursor = "pointer";
-          });
+            // Event listener untuk tombol lightbox
+            document
+                .getElementById("lightboxClose")
+                .addEventListener("click", closeLightbox);
+            document
+                .getElementById("lightboxPrev")
+                .addEventListener("click", () => changeImage(-1));
+            document
+                .getElementById("lightboxNext")
+                .addEventListener("click", () => changeImage(1));
+
+            // Tutup lightbox dengan klik di luar gambar
+            document
+                .getElementById("lightboxModal")
+                .addEventListener("click", function (e) {
+                    if (e.target === this) {
+                        closeLightbox();
+                    }
+                });
+
+            // Navigasi dengan keyboard
+            document.addEventListener("keydown", function (e) {
+                const lightboxModal = document.getElementById("lightboxModal");
+
+                if (lightboxModal.style.display === "flex") {
+                    switch (e.key) {
+                        case "Escape":
+                            closeLightbox();
+                            break;
+                        case "ArrowLeft":
+                            changeImage(-1);
+                            break;
+                        case "ArrowRight":
+                            changeImage(1);
+                            break;
+                    }
+                }
+            });
+
+            // Tambahkan efek hover pada semua gambar yang bisa diklik
+            document.querySelectorAll(".clickable-img").forEach((img) => {
+                img.addEventListener("mouseenter", function () {
+                    this.style.cursor = "pointer";
+                });
+            });
+
+            // Optimasi untuk touch devices
+            if ('ontouchstart' in window) {
+                // Tambahkan class untuk touch device
+                document.body.classList.add('touch-device');
+                
+                // Optimasi event listeners untuk touch
+                document.querySelectorAll('.clickable-img').forEach(img => {
+                    img.addEventListener('touchstart', function() {
+                        this.style.opacity = '0.8';
+                    });
+                    
+                    img.addEventListener('touchend', function() {
+                        this.style.opacity = '1';
+                    });
+                });
+            }
         });
-      });
     </script>
-  </body>
+</body>
 </html>
