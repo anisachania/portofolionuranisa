@@ -14,6 +14,217 @@
         padding: 0;
         scroll-behavior: smooth;
         overflow-x: hidden;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* CSS untuk mode cetak/PDF */
+      @media print {
+        body {
+          background-color: white !important;
+          color: black !important;
+          font-size: 12pt !important;
+          line-height: 1.5 !important;
+          overflow: visible !important;
+        }
+
+        nav,
+        .lightbox-modal,
+        .loader,
+        .lightbox-close,
+        .lightbox-nav,
+        .lightbox-indicator {
+          display: none !important;
+        }
+
+        section {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          margin: 20px 0 !important;
+          padding: 10px !important;
+        }
+
+        .experience-card,
+        .certificate-card,
+        .award-card,
+        .project-card {
+          page-break-inside: avoid !important;
+          break-inside: avoid !important;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+          margin: 10px 0 !important;
+          border: 1px solid #ddd !important;
+        }
+
+        img {
+          max-width: 100% !important;
+          height: auto !important;
+          filter: none !important;
+          -webkit-filter: none !important;
+        }
+
+        a {
+          color: black !important;
+          text-decoration: none !important;
+        }
+
+        .social-links a {
+          background-color: transparent !important;
+          box-shadow: none !important;
+          border: 1px solid #ccc !important;
+        }
+
+        header {
+          background-color: #ffb6c1 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        footer {
+          background-color: #ffb6c1 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+          position: fixed;
+          bottom: 0;
+          width: 100%;
+        }
+
+        h1,
+        h2,
+        h3 {
+          color: #000 !important;
+        }
+
+        .about img {
+          width: 150px !important;
+          height: 150px !important;
+        }
+
+        .skills li {
+          background-color: #f0f0f0 !important;
+          border: 1px solid #ddd !important;
+        }
+
+        /* Tombol cetak sembunyikan saat dicetak */
+        .print-button {
+          display: none !important;
+        }
+      }
+
+      /* Tambahan untuk section projects */
+      .projects {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 30px;
+      }
+
+      .project-card {
+        background: linear-gradient(135deg, #fff0f6 0%, #ffe6f0 100%);
+        border-radius: 20px;
+        padding: 25px;
+        width: 350px;
+        box-shadow: 0 8px 16px rgba(255, 105, 180, 0.2);
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateY(30px);
+        page-break-inside: avoid;
+      }
+
+      .project-card.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 24px rgba(255, 105, 180, 0.3);
+      }
+
+      .project-card h3 {
+        color: #ff66b2;
+        font-size: 1.3rem;
+        margin: 15px 0;
+        min-height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .project-card p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #555;
+        margin-bottom: 20px;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 15px 0;
+        justify-content: center;
+      }
+
+      .project-tech span {
+        background-color: #ffb6c1;
+        color: white;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: bold;
+      }
+
+      .project-links {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+
+      .project-links a {
+        display: inline-flex;
+        align-items: center;
+        padding: 10px 20px;
+        background-color: #ff66b2;
+        color: white;
+        text-decoration: none;
+        border-radius: 30px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      .project-links a:hover {
+        background-color: #ff3385;
+        transform: translateY(-3px);
+      }
+
+      .project-links i {
+        margin-right: 8px;
+      }
+
+      /* Tombol cetak */
+      .print-button {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background-color: #ff66b2;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(255, 102, 178, 0.3);
+        z-index: 99;
+        transition: all 0.3s ease;
+      }
+
+      .print-button:hover {
+        background-color: #ff3385;
+        transform: scale(1.1);
       }
 
       header {
@@ -336,7 +547,8 @@
 
         .experience-card,
         .certificate-card,
-        .award-card {
+        .award-card,
+        .project-card {
           width: 100%;
           max-width: 350px;
         }
@@ -348,6 +560,14 @@
         .social-links a {
           font-size: 1rem;
           padding: 8px 15px;
+        }
+
+        .print-button {
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.3rem;
         }
       }
 
@@ -379,9 +599,18 @@
 
         .experience-card h3,
         .certificate-card h3,
-        .award-card h3 {
+        .award-card h3,
+        .project-card h3 {
           font-size: 1rem;
           min-height: auto;
+        }
+
+        .print-button {
+          bottom: 15px;
+          right: 15px;
+          width: 45px;
+          height: 45px;
+          font-size: 1.2rem;
         }
       }
 
@@ -599,6 +828,11 @@
       <div class="spinner"></div>
     </div>
 
+    <!-- Tombol Cetak -->
+    <button class="print-button" id="printButton" title="Cetak Portofolio">
+      <i class="fas fa-print"></i>
+    </button>
+
     <!-- Lightbox Modal -->
     <div class="lightbox-modal" id="lightboxModal">
       <div class="lightbox-content">
@@ -619,12 +853,14 @@
 
     <header>
       <h1>Portofolio Nur Annisa Chania</h1>
+      <p>Mahasiswi | Web Developer | Content Creator</p>
     </header>
 
     <nav>
       <a href="#about">Tentang Saya</a>
       <a href="#skills">Keahlian</a>
       <a href="#experience">Pengalaman</a>
+      <a href="#projects">Proyek</a>
       <a href="#certificates">Sertifikat</a>
       <a href="#awards">Penghargaan</a>
       <a href="#contact">Kontak</a>
@@ -670,6 +906,8 @@
         <li>Komunikasi</li>
         <li>Desain Web</li>
         <li>Kerja Tim</li>
+        <li>UI/UX Design</li>
+        <li>Content Creation</li>
       </ul>
     </section>
 
@@ -808,6 +1046,60 @@
       </div>
     </section>
 
+    <!-- Bagian baru untuk Proyek -->
+    <section id="projects">
+      <h2>Proyek Saya</h2>
+      <div class="projects">
+        <div class="project-card">
+          <h3>Sistem Informasi Manajemen Perpustakaan</h3>
+          <p>
+            Sistem berbasis web untuk mengelola koleksi buku, anggota, dan
+            peminjaman di perpustakaan sekolah. Dilengkapi dengan fitur
+            pencarian, laporan, dan notifikasi.
+          </p>
+          <div class="project-tech">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>PHP</span>
+            <span>MySQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank">
+              <i class="fas fa-external-link-alt"></i> Demo
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <h3>Website E-Commerce Fashion Local</h3>
+          <p>
+            Platform e-commerce untuk produk fashion lokal dengan sistem
+            pembayaran online, keranjang belanja, dan dashboard admin untuk
+            mengelola produk dan pesanan.
+          </p>
+          <div class="project-tech">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>JavaScript</span>
+            <span>Bootstrap</span>
+            <span>PHP</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank">
+              <i class="fas fa-external-link-alt"></i> Demo
+            </a>
+            <a href="#" target="_blank">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="certificates">
       <h2>Sertifikat</h2>
       <div class="certificates-container">
@@ -892,7 +1184,6 @@
       </div>
     </section>
 
-    <!-- Bagian baru untuk Penghargaan -->
     <section id="awards">
       <h2>Penghargaan</h2>
       <div class="awards-container">
@@ -967,11 +1258,22 @@
           />
           @achacha_98
         </a>
+        <a href="https://github.com/anisachania" target="_blank">
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/733/733553.png"
+            alt="GitHub"
+          />
+          anisachania
+        </a>
       </div>
     </section>
 
     <footer>
       <p>© 2025 Nur Annisa Chania | Portofolio Diri 💕</p>
+      <p>
+        Portofolio ini siap dicetak sebagai PDF dengan tampilan yang rapi dan
+        profesional
+      </p>
     </footer>
 
     <script>
@@ -1004,9 +1306,11 @@
           });
         }, observerOptions);
 
-        // Amati semua kartu pengalaman, sertifikat, dan penghargaan
+        // Amati semua kartu pengalaman, sertifikat, penghargaan, dan proyek
         document
-          .querySelectorAll(".experience-card, .certificate-card, .award-card")
+          .querySelectorAll(
+            ".experience-card, .certificate-card, .award-card, .project-card"
+          )
           .forEach((card) => {
             observer.observe(card);
           });
@@ -1048,6 +1352,61 @@
 
           if (header) {
             header.style.transform = `translateY(${scrolled * 0.1}px)`;
+          }
+        });
+
+        // Fungsi untuk mencetak portofolio
+        document
+          .getElementById("printButton")
+          .addEventListener("click", function () {
+            // Tambahkan header sebelum mencetak
+            const originalTitle = document.title;
+            document.title =
+              "Portofolio Nur Annisa Chania - " +
+              new Date().toLocaleDateString();
+
+            window.print();
+
+            // Kembalikan title asli
+            document.title = originalTitle;
+          });
+
+        // Optimasi untuk cetakan
+        window.addEventListener("beforeprint", function () {
+          // Sembunyikan tombol cetak dan elemen yang tidak perlu
+          document.getElementById("printButton").style.display = "none";
+
+          // Tambahkan informasi tambahan untuk cetakan
+          const printHeader = document.createElement("div");
+          printHeader.innerHTML = `
+            <div style="text-align: center; margin-bottom: 20px; border-bottom: 2px solid #ff66b2; padding-bottom: 10px;">
+              <h1 style="color: #ff66b2; margin-bottom: 5px;">Portofolio Nur Annisa Chania</h1>
+              <p style="color: #666; font-size: 14px;">Dicetak pada: ${new Date().toLocaleDateString(
+                "id-ID",
+                {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                }
+              )}</p>
+            </div>
+          `;
+
+          // Sisipkan header cetakan di awal body
+          document.body.insertBefore(printHeader, document.body.firstChild);
+        });
+
+        window.addEventListener("afterprint", function () {
+          // Kembalikan tombol cetak
+          document.getElementById("printButton").style.display = "block";
+
+          // Hapus header cetakan
+          const printHeader = document.querySelector(
+            "div[style*='text-align: center']"
+          );
+          if (printHeader) {
+            printHeader.remove();
           }
         });
       });
@@ -1184,5 +1543,3 @@
     </script>
   </body>
 </html>
-
-
